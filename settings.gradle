@@ -16,3 +16,4 @@ rootProject.name = "Bookabulary"
 include ':app'
 include ':app:core'
 include ':widget'
+include ':presenter'
