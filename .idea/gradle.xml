@@ -12,6 +12,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/app/core" />
+<<<<<<< HEAD
+=======
+            <option value="$PROJECT_DIR$/app/feature" />
+            <option value="$PROJECT_DIR$/widget" />
+>>>>>>> 0116e7c (Add widget module)
           </set>
         </option>
       </GradleProjectSettings>
