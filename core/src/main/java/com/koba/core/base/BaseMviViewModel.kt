@@ -31,4 +31,7 @@ abstract class BaseMviViewModel<I : MviIntent, S : MviState, E : MviEffect, SE :
             _effect.emit(effect)
         }
     }
+
+    protected abstract fun handleIntent(intent: I)
+    protected abstract fun handleSideEffect(sideEffect: SE)
 }
