@@ -15,7 +15,6 @@ dependencyResolutionManagement {
 rootProject.name = "Bookabulary"
 include ':app'
 include ':app:core'
-include ':widget'
 include ':presenter'
 include ':domain'
 include ':data'
