@@ -12,11 +12,11 @@
 
 ### Clean Architecture (presenter - domain - data 구조)
 
-![Clean Architecture](.image/clean-architecture.png)
+<img src="image/clean-architecture.png">
 
 ### MVI Architecture (Intent, State, Effect, Side Effect 구성)
 
-![mvi](.image/mvi.png)
+<img src="image/mvi.png">
 
 ## 🛠 기술 스택
 
