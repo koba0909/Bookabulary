@@ -12,7 +12,7 @@ class MockingInterparkRepositoryImpl : InterparkRepository {
     val jsonBuilder = Json {
         ignoreUnknownKeys = true
     }
-    override fun getBestSeller(): List<Book> {
+    override suspend fun getBestSeller(): List<Book> {
         return jsonBuilder.decodeFromString<BestSellerDto>(
             MockData.bestSellerJson
         ).toBooks()
