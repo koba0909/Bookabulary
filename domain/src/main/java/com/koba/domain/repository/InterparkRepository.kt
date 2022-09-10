@@ -1,7 +1,7 @@
 package com.koba.domain.repository
 
-import com.koba.data.dto.BestSellerDto
+import com.koba.domain.model.Book
 
 interface InterparkRepository {
-    fun getBestSeller(): BestSellerDto
+    fun getBestSeller(): List<Book>
 }
