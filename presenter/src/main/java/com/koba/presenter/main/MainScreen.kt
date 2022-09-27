@@ -1,6 +1,7 @@
 package com.koba.presenter.main
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -54,13 +55,16 @@ fun MainScreen(mainViewModel: MainViewModel) {
             ),
         contentAlignment = Alignment.Center
     ) {
-        BestSellerGrid(books = state.value.bestSellers)
+        BestSellerGrid(books = state.value.bestSellers) {
+            // TODO move detail screen
+            Toast.makeText(context, it.title, Toast.LENGTH_SHORT).show()
+        }
         CircularProgress(isShow = state.value.isLoading)
     }
 }
 
 @Composable
-fun BestSellerGrid(books: List<Book>) {
+fun BestSellerGrid(books: List<Book>, onClickBook: (Book) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(count = 3),
         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -69,15 +73,18 @@ fun BestSellerGrid(books: List<Book>) {
         items(
             items = books
         ) { book ->
-            BookItem(book)
+            BookItem(book, onClickBook)
         }
     }
 }
 
 @Composable
-fun BookItem(book: Book) {
+fun BookItem(book: Book, onClickBook: (Book) -> Unit) {
     Column(
         modifier = Modifier.height(190.dp)
+            .clickable {
+                onClickBook.invoke(book)
+            }
     ) {
         Card(
             shape = RoundedCornerShape(5.dp),
