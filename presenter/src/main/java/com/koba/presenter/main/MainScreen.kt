@@ -101,6 +101,7 @@ fun BookItem(book: Book, onClickBook: (Book) -> Unit) {
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(book.imageUrl)
                     .crossfade(true)
+                    .memoryCacheKey(book.title)
                     .build(),
                 contentScale = ContentScale.FillBounds,
                 contentDescription = book.title
