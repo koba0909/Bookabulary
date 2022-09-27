@@ -36,6 +36,9 @@ class MainViewModel @Inject constructor(
                         bestSellers = intent.books
                     )
                 }
+                emitEffect(
+                    MainEffect.ShowToast("Success get bestseller")
+                )
             }
             is MainIntent.GetBestSellerListFail -> {
                 updateState {
