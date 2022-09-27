@@ -11,6 +11,12 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getBestSellerUseCase: GetBestSellerUseCase
 ) : BaseMviViewModel<MainIntent, MainState, MainEffect, MainSideEffect>(MainState()) {
+    init {
+        handleIntent(
+            MainIntent.RequestBestSellerList
+        )
+    }
+
     override fun handleIntent(intent: MainIntent) {
         when (intent) {
             is MainIntent.RequestBestSellerList -> {
