@@ -1,5 +1,6 @@
 package com.koba.presenter.main
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,13 +15,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.flowWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.koba.domain.model.Book
@@ -28,9 +31,24 @@ import com.koba.domain.model.Book
 @Composable
 fun MainScreen(mainViewModel: MainViewModel) {
     val state = mainViewModel.state.collectAsState()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        mainViewModel.effect
+            .flowWithLifecycle(lifecycleOwner.lifecycle)
+            .collect {
+                when(it) {
+                    is MainEffect.ShowToast -> {
+                        Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+    }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(
                 horizontal = 10.dp
             ),

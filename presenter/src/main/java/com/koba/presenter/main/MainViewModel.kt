@@ -43,6 +43,9 @@ class MainViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
+                emitEffect(
+                    MainEffect.ShowToast("Fail get bestseller list, cause : ${intent.throwable.message}")
+                )
             }
         }
     }
