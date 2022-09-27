@@ -1,5 +1,6 @@
 package com.koba.core.base
 
+import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.koba.core.mvi.MviEffect
@@ -22,11 +23,13 @@ abstract class BaseMviViewModel<I : MviIntent, S : MviState, E : MviEffect, SE :
     private val _effect = MutableSharedFlow<E>()
     val effect = _effect.asSharedFlow()
 
-    private inline fun updateState(function: (S) -> S) {
+    @CallSuper
+    protected fun updateState(function: (S) -> S) {
         _state.update(function)
     }
 
-    private fun emitEffect(effect: E) {
+    @CallSuper
+    protected fun emitEffect(effect: E) {
         viewModelScope.launch {
             _effect.emit(effect)
         }
