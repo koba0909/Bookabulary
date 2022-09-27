@@ -1,5 +1,6 @@
 package com.koba.presenter.main
 
+import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
@@ -34,12 +36,13 @@ fun MainScreen(mainViewModel: MainViewModel) {
     val state = mainViewModel.state.collectAsState()
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
+    val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
 
     LaunchedEffect(Unit) {
         mainViewModel.effect
             .flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect {
-                when(it) {
+                when (it) {
                     is MainEffect.ShowToast -> {
                         Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                     }
@@ -55,7 +58,10 @@ fun MainScreen(mainViewModel: MainViewModel) {
             ),
         contentAlignment = Alignment.Center
     ) {
-        BestSellerGrid(books = state.value.bestSellers) {
+        BestSellerGrid(
+            books = state.value.bestSellers,
+            cellCount = if (isPortrait) 3 else 5
+        ) {
             // TODO move detail screen
             Toast.makeText(context, it.title, Toast.LENGTH_SHORT).show()
         }
@@ -64,9 +70,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
 }
 
 @Composable
-fun BestSellerGrid(books: List<Book>, onClickBook: (Book) -> Unit) {
+fun BestSellerGrid(books: List<Book>, cellCount: Int, onClickBook: (Book) -> Unit) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(count = 3),
+        columns = GridCells.Fixed(cellCount),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
