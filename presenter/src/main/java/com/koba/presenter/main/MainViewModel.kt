@@ -1,17 +1,63 @@
 package com.koba.presenter.main
 
+import androidx.lifecycle.viewModelScope
 import com.koba.core.base.BaseMviViewModel
+import com.koba.domain.usecase.GetBestSellerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor() : BaseMviViewModel
-<MainIntent, MainState, MainEffect, MainSideEffect>(MainState()) {
+class MainViewModel @Inject constructor(
+    private val getBestSellerUseCase: GetBestSellerUseCase
+) : BaseMviViewModel<MainIntent, MainState, MainEffect, MainSideEffect>(MainState()) {
     override fun handleIntent(intent: MainIntent) {
-        TODO("Not yet implemented")
+        when (intent) {
+            is MainIntent.RequestBestSellerList -> {
+                updateState {
+                    it.copy(
+                        isLoading = true
+                    )
+                }
+                handleSideEffect(
+                    sideEffect = MainSideEffect.GetBestSellerList
+                )
+            }
+            is MainIntent.GetBestSellerListSuccess -> {
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        bestSellers = intent.books
+                    )
+                }
+            }
+            is MainIntent.GetBestSellerListFail -> {
+                updateState {
+                    it.copy(
+                        isLoading = false
+                    )
+                }
+            }
+        }
     }
 
     override fun handleSideEffect(sideEffect: MainSideEffect) {
-        TODO("Not yet implemented")
+        when (sideEffect) {
+            is MainSideEffect.GetBestSellerList -> {
+                viewModelScope.launch {
+                    runCatching {
+                        getBestSellerUseCase()
+                    }.onSuccess {
+                        handleIntent(
+                            MainIntent.GetBestSellerListSuccess(it)
+                        )
+                    }.onFailure {
+                        handleIntent(
+                            MainIntent.GetBestSellerListFail(it)
+                        )
+                    }
+                }
+            }
+        }
     }
 }
