@@ -4,8 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.koba.core.base.BaseMviViewModel
 import com.koba.domain.usecase.GetBestSellerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -47,7 +47,9 @@ class MainViewModel @Inject constructor(
                     )
                 }
                 emitEffect(
-                    MainEffect.ShowToast("Fail get bestseller list, cause : ${intent.throwable.message}")
+                    MainEffect.ShowToast(
+                        "Fail get bestseller list, cause : ${intent.throwable.message}"
+                    )
                 )
             }
         }

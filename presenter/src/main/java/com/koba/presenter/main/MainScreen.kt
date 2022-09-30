@@ -18,7 +18,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -30,16 +30,20 @@ import androidx.lifecycle.flowWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.koba.domain.model.Book
+import kotlinx.coroutines.flow.Flow
 
 @Composable
-fun MainScreen(mainViewModel: MainViewModel) {
-    val state = mainViewModel.state.collectAsState()
+fun MainScreen(
+    state: State<MainState>,
+    effectFlow: Flow<MainEffect>,
+    onRequestRefreshBookList: () -> Unit
+) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
     val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
 
     LaunchedEffect(Unit) {
-        mainViewModel.effect
+        effectFlow
             .flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect {
                 when (it) {
