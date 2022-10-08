@@ -21,13 +21,15 @@ interface InterparkModule {
     ): InterparkRepository
 
     companion object {
+        const val BASE_URL_INTERPARK = "http://book.interpark.com"
+
         @Provides
         @ViewModelScoped
         fun provideInterparkService(
             retrofitProvider: RetrofitProvider
         ): InterparkService = retrofitProvider
             .getRetrofitBuilder(
-                baseUrl = "http://book.interpark.com"
+                baseUrl = BASE_URL_INTERPARK
             ).build()
             .create(InterparkService::class.java)
     }
