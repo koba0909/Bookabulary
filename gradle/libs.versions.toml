@@ -1,9 +1,14 @@
 [versions]
+# sdk
 compileSdk = "33"
 targetSdk = "33"
 minSdk = "24"
 jvmTarget = "1.8"
 
+# plugin
+hilt-plugin = "2.42"
+
+# library
 android-gradle = "7.3.0"
 compose = "1.2.1"
 core-ktx = "1.9.0"
@@ -57,6 +62,8 @@ androidx-test-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref 
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
 
 # hilt
+hilt-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt-plugin" }
+#hilt-android-plugin = { module = "dagger.hilt.android.plugin", version.ref = "hilt-plugin" }
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 
@@ -89,5 +96,6 @@ android-application = { id = "com.android.application", version.ref = "android-g
 android-library = { id = "com.android.library", version.ref = "android-gradle" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
