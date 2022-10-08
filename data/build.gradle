@@ -11,11 +11,11 @@ def properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
-    compileSdk 33
+    compileSdk Integer.valueOf(libs.versions.compileSdk.get())
 
     defaultConfig {
-        minSdk 24
-        targetSdk 33
+        minSdk Integer.valueOf(libs.versions.minSdk.get())
+        targetSdk Integer.valueOf(libs.versions.targetSdk.get())
 
         buildConfigField "String", "INTERPARK_KEY", properties.getProperty("interpark_api_key")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -40,18 +40,17 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
 
-    implementation "androidx.core:core-ktx:$core_ktx_version"
-    implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation "com.google.android.material:material:$material_version"
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0'
-    implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
-    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.10'
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.retrofit)
+    implementation(libs.bundles.kotlinx.serialization)
+    implementation(libs.okhttp)
 
-    testImplementation "junit:junit:$junit_version"
-    androidTestImplementation "androidx.test.ext:junit:$test_ext_junit_version"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.junit)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 }

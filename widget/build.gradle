@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk Integer.valueOf(libs.versions.compileSdk.get())
 
     defaultConfig {
-        minSdk 24
-        targetSdk 33
+        minSdk Integer.valueOf(libs.versions.minSdk.get())
+        targetSdk Integer.valueOf(libs.versions.targetSdk.get())
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -36,5 +36,5 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$junit_test_version"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
+//    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
 }
