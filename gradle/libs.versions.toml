@@ -63,7 +63,6 @@ androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core",
 
 # hilt
 hilt-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt-plugin" }
-#hilt-android-plugin = { module = "dagger.hilt.android.plugin", version.ref = "hilt-plugin" }
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 
@@ -83,6 +82,8 @@ okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 # coil
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 
+# kotlin plugin
+kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 [bundles]
 androidx-compose = ["androidx-compose-ui", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview",
 "androidx-compose-material3", "androidx-activity-compose"]
