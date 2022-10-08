@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk Integer.valueOf(libs.versions.compileSdk.get())
 
     defaultConfig {
-        minSdk 24
-        targetSdk 33
+        minSdk Integer.valueOf(libs.versions.minSdk.get())
+        targetSdk Integer.valueOf(libs.versions.targetSdk.get())
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -35,14 +35,14 @@ android {
 dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation "androidx.core:core-ktx:$core_ktx_version"
-    implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation "com.google.android.material:material:$material_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
-    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.10'
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    testImplementation "junit:junit:$junit_version"
-    androidTestImplementation "androidx.test.ext:junit:$test_ext_junit_version"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.retrofit)
+    implementation(libs.bundles.kotlinx.serialization)
+    implementation(libs.okhttp)
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.junit)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 }
