@@ -9,8 +9,18 @@ import javax.inject.Inject
 class InterparkRepositoryImpl @Inject constructor(
     private val service: InterparkService
 ) : InterparkRepository {
-    override suspend fun getBestSeller(): List<Book> {
+    override suspend fun getBestSellerBooks(): List<Book> {
         return service.getBestSeller()
+            .toBooks()
+    }
+
+    override suspend fun getRecommendBooks(): List<Book> {
+        return service.getRecommend()
+            .toBooks()
+    }
+
+    override suspend fun getNewBooks(): List<Book> {
+        return service.getNewBook()
             .toBooks()
     }
 }
