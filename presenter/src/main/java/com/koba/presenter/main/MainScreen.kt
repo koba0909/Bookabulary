@@ -47,7 +47,9 @@ import kotlinx.coroutines.launch
 fun MainScreen(
     state: State<MainState>,
     effectFlow: Flow<MainEffect>,
-    onRequestRefreshBookList: () -> Unit
+    onRequestRefreshBookList: () -> Unit,
+    onRequestRecommendBookList: () -> Unit,
+    onRequestNewBookList: () -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
