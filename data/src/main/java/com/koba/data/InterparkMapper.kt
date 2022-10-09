@@ -1,9 +1,9 @@
 package com.koba.data
 
-import com.koba.data.dto.BestSellerDto
+import com.koba.data.dto.InterparkBookDto
 import com.koba.domain.model.Book
 
-fun BestSellerDto.toBooks(): List<Book> {
+fun InterparkBookDto.toBooks(): List<Book> {
     return items.map { 
         Book(
         title = it.title,

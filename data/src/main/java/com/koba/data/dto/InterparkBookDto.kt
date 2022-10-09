@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 
 @Keep
 @Serializable
-data class BestSellerDto(
+data class InterparkBookDto(
     @SerialName("item")
     val items: List<ItemDetail>
 )
