@@ -11,7 +11,19 @@ fun MainRoute(viewModel: MainViewModel) {
         state = state,
         effectFlow = viewModel.effect,
         onRequestRefreshBookList = {
-            viewModel.handleIntent(MainIntent.RequestBestSellerBooks)
+            viewModel.handleIntent(
+                MainIntent.RequestBestSellerBooks
+            )
+        },
+        onRequestRecommendBookList = {
+            viewModel.handleIntent(
+                MainIntent.RequestRecommendBooks
+            )
+        },
+        onRequestNewBookList = {
+            viewModel.handleIntent(
+                MainIntent.RequestNewBooks
+            )
         }
     )
 }
