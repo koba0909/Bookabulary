@@ -33,6 +33,8 @@ kotlinx-serialization-converter = "0.8.0"
 okhttp = "5.0.0-alpha.10"
 test-core = "1.4.0"
 androidx-lifecycle-viewmodel-ktx = "2.5.1"
+accompanist-pager = "0.26.5-rc"
+
 
 [libraries]
 # andoridx
@@ -46,6 +48,7 @@ androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compos
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "compose-material3" }
 androidx-compose-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -84,9 +87,13 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose
 
 # kotlin plugin
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
+# google-accompanist
+accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist-pager"}
+accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist-pager"}
+
 [bundles]
-androidx-compose = ["androidx-compose-ui", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview",
-"androidx-compose-material3", "androidx-activity-compose"]
+androidx-compose = ["androidx-compose-ui", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-activity-compose"]
 androidx-compose-test = ["androidx-compose-test-junit4", "androidx-compose-ui-test-manifest"]
 androidx-navigation = ["androidx-navigation", "androidx-hilt-navigation"]
 androidx-test = ["androidx-test-core", "androidx-test-core", "androidx-test-junit", "androidx-test-junit-ktx"]
