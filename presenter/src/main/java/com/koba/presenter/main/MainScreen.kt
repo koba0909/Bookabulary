@@ -14,11 +14,16 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.TabRowDefaults
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -29,9 +34,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.flowWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.pagerTabIndicatorOffset
+import com.google.accompanist.pager.rememberPagerState
 import com.koba.domain.model.Book
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun MainScreen(
     state: State<MainState>,
@@ -41,6 +52,13 @@ fun MainScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
     val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+    val pageState = rememberPagerState()
+    val coroutineScope = rememberCoroutineScope()
+    val tabs = listOf(
+        "베스트 도서",
+        "추천 도서",
+        "신작 도서"
+    )
 
     LaunchedEffect(Unit) {
         effectFlow
@@ -62,12 +80,57 @@ fun MainScreen(
             ),
         contentAlignment = Alignment.Center
     ) {
-        BestSellerGrid(
-            books = state.value.bestSellers,
-            cellCount = if (isPortrait) 3 else 5
+        Column(
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            // TODO move detail screen
-            Toast.makeText(context, it.title, Toast.LENGTH_SHORT).show()
+            TabRow(
+                selectedTabIndex = pageState.currentPage,
+                indicator = { tabPositions ->
+                    TabRowDefaults.Indicator(
+                        modifier = Modifier.pagerTabIndicatorOffset(pageState, tabPositions)
+                    )
+                }
+            ) {
+                tabs.forEachIndexed { index, title ->
+                    Tab(
+                        selected = pageState.currentPage == index,
+                        onClick = {
+                            coroutineScope.launch {
+                                pageState.scrollToPage(index)
+                            }
+                            Toast.makeText(context, title, Toast.LENGTH_SHORT).show()
+                        }
+                    ) {
+                        Text(title)
+                    }
+                }
+            }
+
+            HorizontalPager(
+                count = 3,
+                state = pageState
+            ) { page ->
+                when (page) {
+                    0 -> {
+                        BestSellerGrid(
+                            books = state.value.bestSellers,
+                            cellCount = if (isPortrait) 3 else 5
+                        ) {
+                            // TODO move detail screen
+                            Toast.makeText(context, it.title, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    1 -> {
+                        BestSellerGrid(
+                            books = state.value.bestSellers,
+                            cellCount = if (isPortrait) 3 else 5
+                        ) {
+                            // TODO move detail screen
+                            Toast.makeText(context, it.title, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
         }
         CircularProgress(isShow = state.value.isLoading)
     }
