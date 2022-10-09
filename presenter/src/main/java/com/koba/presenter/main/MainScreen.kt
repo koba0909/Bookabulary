@@ -113,7 +113,7 @@ fun MainScreen(
                 when (page) {
                     0 -> {
                         BestSellerGrid(
-                            books = state.value.bestSellers,
+                            books = state.value.bestSellerBooks,
                             cellCount = if (isPortrait) 3 else 5
                         ) {
                             // TODO move detail screen
@@ -122,7 +122,7 @@ fun MainScreen(
                     }
                     1 -> {
                         BestSellerGrid(
-                            books = state.value.bestSellers,
+                            books = state.value.bestSellerBooks,
                             cellCount = if (isPortrait) 3 else 5
                         ) {
                             // TODO move detail screen
@@ -132,7 +132,7 @@ fun MainScreen(
                 }
             }
         }
-        CircularProgress(isShow = state.value.isLoading)
+        CircularProgress(isShow = state.value.isLoadingBestSeller)
     }
 }
 

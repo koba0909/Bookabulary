@@ -11,7 +11,7 @@ fun MainRoute(viewModel: MainViewModel) {
         state = state,
         effectFlow = viewModel.effect,
         onRequestRefreshBookList = {
-            viewModel.handleIntent(MainIntent.RequestBestSellerList)
+            viewModel.handleIntent(MainIntent.RequestBestSellerBooks)
         }
     )
 }

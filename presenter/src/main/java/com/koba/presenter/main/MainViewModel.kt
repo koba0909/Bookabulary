@@ -13,37 +13,37 @@ class MainViewModel @Inject constructor(
 ) : BaseMviViewModel<MainIntent, MainState, MainEffect, MainSideEffect>(MainState()) {
     init {
         handleIntent(
-            MainIntent.RequestBestSellerList
+            MainIntent.RequestBestSellerBooks
         )
     }
 
     override fun handleIntent(intent: MainIntent) {
         when (intent) {
-            is MainIntent.RequestBestSellerList -> {
+            is MainIntent.RequestBestSellerBooks -> {
                 updateState {
                     it.copy(
-                        isLoading = true
+                        isLoadingBestSeller = true
                     )
                 }
                 handleSideEffect(
-                    sideEffect = MainSideEffect.GetBestSellerList
+                    sideEffect = MainSideEffect.GetBestSellerBooks
                 )
             }
-            is MainIntent.GetBestSellerListSuccess -> {
+            is MainIntent.GetBestSellerBooksSuccess -> {
                 updateState {
                     it.copy(
-                        isLoading = false,
-                        bestSellers = intent.books
+                        isLoadingBestSeller = false,
+                        bestSellerBooks = intent.books
                     )
                 }
                 emitEffect(
                     MainEffect.ShowToast("Success get bestseller")
                 )
             }
-            is MainIntent.GetBestSellerListFail -> {
+            is MainIntent.GetBestSellerBooksFail -> {
                 updateState {
                     it.copy(
-                        isLoading = false
+                        isLoadingBestSeller = false
                     )
                 }
                 emitEffect(
@@ -57,17 +57,17 @@ class MainViewModel @Inject constructor(
 
     override fun handleSideEffect(sideEffect: MainSideEffect) {
         when (sideEffect) {
-            is MainSideEffect.GetBestSellerList -> {
+            is MainSideEffect.GetBestSellerBooks -> {
                 viewModelScope.launch {
                     runCatching {
                         getBestSellerUseCase()
                     }.onSuccess {
                         handleIntent(
-                            MainIntent.GetBestSellerListSuccess(it)
+                            MainIntent.GetBestSellerBooksSuccess(it)
                         )
                     }.onFailure {
                         handleIntent(
-                            MainIntent.GetBestSellerListFail(it)
+                            MainIntent.GetBestSellerBooksFail(it)
                         )
                     }
                 }
