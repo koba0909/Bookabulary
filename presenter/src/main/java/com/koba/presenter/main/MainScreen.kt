@@ -1,5 +1,6 @@
 package com.koba.presenter.main
 
+import android.content.Context
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -36,9 +36,11 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.koba.domain.model.Book
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -53,7 +55,7 @@ fun MainScreen(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
-    val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+    val cellCount = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) 3 else 5
     val pageState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
     val tabs = listOf(
@@ -61,6 +63,19 @@ fun MainScreen(
         "추천 도서",
         "신작 도서"
     )
+
+    when (pageState.currentPage) {
+        1 -> {
+            if (!state.value.isLoadingRecommend && state.value.recommendBooks.isEmpty()) {
+                onRequestRecommendBookList.invoke()
+            }
+        }
+        2 -> {
+            if (!state.value.isLoadingNew && state.value.newBooks.isEmpty()) {
+                onRequestNewBookList.invoke()
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         effectFlow
@@ -74,72 +89,127 @@ fun MainScreen(
             }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                horizontal = 10.dp
-            ),
-        contentAlignment = Alignment.Center
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            TabRow(
-                selectedTabIndex = pageState.currentPage,
-                indicator = { tabPositions ->
-                    TabRowDefaults.Indicator(
-                        modifier = Modifier.pagerTabIndicatorOffset(pageState, tabPositions)
-                    )
+        BookTabRow(
+            context = context,
+            coroutineScope = coroutineScope,
+            pageState = pageState,
+            titles = tabs
+        )
+
+        BookHorizontalPager(
+            context = context,
+            pageState = pageState,
+            state = state,
+            cellCount = cellCount
+        )
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun BookTabRow(
+    context: Context,
+    coroutineScope: CoroutineScope,
+    pageState: PagerState,
+    titles: List<String>
+) {
+    TabRow(
+        selectedTabIndex = pageState.currentPage,
+        indicator = { tabPositions ->
+            TabRowDefaults.Indicator(
+                modifier = Modifier.pagerTabIndicatorOffset(pageState, tabPositions)
+            )
+        }
+    ) {
+        titles.forEachIndexed { index, title ->
+            Tab(
+                selected = pageState.currentPage == index,
+                onClick = {
+                    coroutineScope.launch {
+                        pageState.scrollToPage(index)
+                    }
+                    Toast.makeText(context, title, Toast.LENGTH_SHORT).show()
                 }
             ) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(
-                        selected = pageState.currentPage == index,
-                        onClick = {
-                            coroutineScope.launch {
-                                pageState.scrollToPage(index)
-                            }
-                            Toast.makeText(context, title, Toast.LENGTH_SHORT).show()
-                        }
-                    ) {
-                        Text(title)
-                    }
-                }
-            }
-
-            HorizontalPager(
-                count = 3,
-                state = pageState
-            ) { page ->
-                when (page) {
-                    0 -> {
-                        BestSellerGrid(
-                            books = state.value.bestSellerBooks,
-                            cellCount = if (isPortrait) 3 else 5
-                        ) {
-                            // TODO move detail screen
-                            Toast.makeText(context, it.title, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    1 -> {
-                        BestSellerGrid(
-                            books = state.value.bestSellerBooks,
-                            cellCount = if (isPortrait) 3 else 5
-                        ) {
-                            // TODO move detail screen
-                            Toast.makeText(context, it.title, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
+                Text(title)
             }
         }
-        CircularProgress(isShow = state.value.isLoadingBestSeller)
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun BookHorizontalPager(
+    context: Context,
+    pageState: PagerState,
+    state: State<MainState>,
+    cellCount: Int
+) {
+    HorizontalPager(
+        count = 3,
+        state = pageState
+    ) { page ->
+        when (page) {
+            0 -> {
+                BookGridPage(
+                    context = context,
+                    books = state.value.bestSellerBooks,
+                    isLoading = state.value.isLoadingBestSeller,
+                    cellCount = cellCount
+                )
+            }
+            1 -> {
+                BookGridPage(
+                    context = context,
+                    books = state.value.recommendBooks,
+                    isLoading = state.value.isLoadingRecommend,
+                    cellCount = cellCount
+                )
+            }
+
+            2 -> {
+                BookGridPage(
+                    context = context,
+                    books = state.value.newBooks,
+                    isLoading = state.value.isLoadingNew,
+                    cellCount = cellCount
+                )
+            }
+        }
     }
 }
 
 @Composable
-fun BestSellerGrid(books: List<Book>, cellCount: Int, onClickBook: (Book) -> Unit) {
+fun BookGridPage(
+    context: Context,
+    books: List<Book>,
+    isLoading: Boolean,
+    cellCount: Int
+) {
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        CircularProgress(
+            modifier = Modifier.align(Alignment.Center)
+                .size(50.dp),
+            isShow = isLoading
+        )
+
+        BookGrid(
+            books = books,
+            cellCount = cellCount
+        ) {
+            // TODO move detail screen
+            Toast.makeText(context, it.title, Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+
+@Composable
+fun BookGrid(books: List<Book>, cellCount: Int, onClickBook: (Book) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(cellCount),
         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -180,10 +250,10 @@ fun BookItem(book: Book, onClickBook: (Book) -> Unit) {
 }
 
 @Composable
-fun CircularProgress(isShow: Boolean) {
+fun CircularProgress(modifier: Modifier, isShow: Boolean) {
     if (isShow) {
         CircularProgressIndicator(
-            modifier = Modifier.size(50.dp)
+            modifier = modifier
         )
     }
 }
