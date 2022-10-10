@@ -14,7 +14,6 @@ fun InterparkBookDto.toBooks(): List<Book> {
         categoryName = it.categoryName,
         reviewRating = it.reviewRating,
         author = it.author,
-        rank = it.rank,
         publisher = it.publisher,
         link = it.link
         )
