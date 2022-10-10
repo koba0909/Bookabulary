@@ -41,7 +41,7 @@ class MainViewModel @Inject constructor(
                     )
                 }
                 emitEffect(
-                    MainEffect.ShowToast("Success get bestseller")
+                    MainEffect.ShowToast("Success to get bestseller")
                 )
             }
             is MainIntent.GetBestSellerBooksFail -> {
@@ -74,6 +74,9 @@ class MainViewModel @Inject constructor(
                         recommendBooks = intent.books
                     )
                 }
+                emitEffect(
+                    MainEffect.ShowToast("Success to get recommend book")
+                )
             }
             is MainIntent.GetRecommendBooksFail -> {
                 updateState {
@@ -105,6 +108,9 @@ class MainViewModel @Inject constructor(
                         newBooks = intent.books
                     )
                 }
+                emitEffect(
+                    MainEffect.ShowToast("Success to get new book")
+                )
             }
             is MainIntent.GetNewBooksFail -> {
                 updateState {

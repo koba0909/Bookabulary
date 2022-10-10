@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -39,6 +40,8 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.koba.domain.model.Book
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -93,17 +96,20 @@ fun MainScreen(
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         BookTabRow(
-            context = context,
             coroutineScope = coroutineScope,
             pageState = pageState,
             titles = tabs
         )
 
         BookHorizontalPager(
+            modifier = Modifier.padding(horizontal = 10.dp),
             context = context,
             pageState = pageState,
             state = state,
-            cellCount = cellCount
+            cellCount = cellCount,
+            onRequestBestSellerBook = onRequestRefreshBookList,
+            onRequestRecommendBook = onRequestRecommendBookList,
+            onRequestNewBook = onRequestNewBookList
         )
     }
 }
@@ -111,7 +117,6 @@ fun MainScreen(
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun BookTabRow(
-    context: Context,
     coroutineScope: CoroutineScope,
     pageState: PagerState,
     titles: List<String>
@@ -131,7 +136,6 @@ fun BookTabRow(
                     coroutineScope.launch {
                         pageState.scrollToPage(index)
                     }
-                    Toast.makeText(context, title, Toast.LENGTH_SHORT).show()
                 }
             ) {
                 Text(title)
@@ -143,67 +147,82 @@ fun BookTabRow(
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun BookHorizontalPager(
+    modifier: Modifier,
     context: Context,
     pageState: PagerState,
     state: State<MainState>,
-    cellCount: Int
+    cellCount: Int,
+    onRequestBestSellerBook: () -> Unit,
+    onRequestRecommendBook: () -> Unit,
+    onRequestNewBook: () -> Unit
 ) {
     HorizontalPager(
+        modifier = modifier,
         count = 3,
         state = pageState
     ) { page ->
         when (page) {
             0 -> {
-                BookGridPage(
+                BookSwipeGrid(
                     context = context,
                     books = state.value.bestSellerBooks,
                     isLoading = state.value.isLoadingBestSeller,
                     cellCount = cellCount
-                )
+                ) {
+                    onRequestBestSellerBook.invoke()
+                }
             }
             1 -> {
-                BookGridPage(
+                BookSwipeGrid(
                     context = context,
                     books = state.value.recommendBooks,
                     isLoading = state.value.isLoadingRecommend,
                     cellCount = cellCount
-                )
+                ) {
+                    onRequestRecommendBook.invoke()
+                }
             }
 
             2 -> {
-                BookGridPage(
+                BookSwipeGrid(
                     context = context,
                     books = state.value.newBooks,
                     isLoading = state.value.isLoadingNew,
                     cellCount = cellCount
-                )
+                ) {
+                    onRequestNewBook.invoke()
+                }
             }
         }
     }
 }
 
 @Composable
-fun BookGridPage(
+fun BookSwipeGrid(
     context: Context,
     books: List<Book>,
     isLoading: Boolean,
-    cellCount: Int
+    cellCount: Int,
+    onSwipeRefresh: () -> Unit
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Box {
         CircularProgress(
             modifier = Modifier.align(Alignment.Center)
                 .size(50.dp),
             isShow = isLoading
         )
 
-        BookGrid(
-            books = books,
-            cellCount = cellCount
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(isRefreshing = isLoading),
+            onRefresh = onSwipeRefresh
         ) {
-            // TODO move detail screen
-            Toast.makeText(context, it.title, Toast.LENGTH_SHORT).show()
+            BookGrid(
+                books = books,
+                cellCount = cellCount
+            ) {
+                // TODO move detail screen
+                Toast.makeText(context, it.title, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

@@ -34,6 +34,7 @@ okhttp = "5.0.0-alpha.10"
 test-core = "1.4.0"
 androidx-lifecycle-viewmodel-ktx = "2.5.1"
 accompanist-pager = "0.26.5-rc"
+accompanist-swipe-refresh = "0.26.5-rc"
 
 
 [libraries]
@@ -91,6 +92,7 @@ kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 # google-accompanist
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist-pager"}
 accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist-pager"}
+accompanist-swipe-refresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist-swipe-refresh"}
 
 [bundles]
 androidx-compose = ["androidx-compose-ui", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-activity-compose"]
