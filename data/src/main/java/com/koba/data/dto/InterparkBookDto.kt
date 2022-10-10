@@ -28,7 +28,6 @@ data class ItemDetail(
     @SerialName("customerReviewRank")
     val reviewRating: Float,
     val author: String,
-    val rank: Int,
     val publisher: String,
     val link: String
 )

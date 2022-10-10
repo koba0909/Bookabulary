@@ -9,7 +9,6 @@ data class Book(
     val categoryName: String,
     val reviewRating: Float,
     val author: String,
-    val rank: Int,
     val publisher: String,
     val link: String
 )
