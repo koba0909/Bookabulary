@@ -56,7 +56,7 @@ class MainViewModel @Inject constructor(
                     )
                 )
             }
-            is MainIntent.RequestNewBooks -> {
+            is MainIntent.RequestRecommendBooks -> {
                 updateState {
                     it.copy(
                         isLoadingRecommend = true
