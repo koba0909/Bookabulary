@@ -1,7 +1,6 @@
 package com.koba.data.network.impl
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.koba.data.network.RetrofitProvider
 import java.util.concurrent.TimeUnit
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -9,18 +8,19 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
-class RetrofitProviderImpl : RetrofitProvider {
+class RetrofitProviderImpl(
+    private val baseUrl: String
+) {
 
     private val jsonBuilder = Json {
         ignoreUnknownKeys = true
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    override fun getRetrofitBuilder(
-        baseUrl: String,
-        connectTime: Long,
-        readTime: Long,
-        writeTime: Long
+    fun getRetrofitBuilder(
+        connectTime: Long = 10L,
+        readTime: Long = 10L,
+        writeTime: Long = 10L
     ): Retrofit.Builder =
         Retrofit.Builder()
             .baseUrl(baseUrl)
