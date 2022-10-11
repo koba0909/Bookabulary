@@ -3,14 +3,13 @@ package com.koba.data.network.impl
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.koba.data.network.RetrofitProvider
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
-class RetrofitProviderImpl @Inject constructor() : RetrofitProvider {
+class RetrofitProviderImpl : RetrofitProvider {
 
     private val jsonBuilder = Json {
         ignoreUnknownKeys = true
