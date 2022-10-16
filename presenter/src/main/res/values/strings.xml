@@ -1,0 +1,5 @@
+<resources>
+    <string name="book_best_seller" translatable="false">베스트 셀러</string>
+    <string name="book_recommend" translatable="false">추천 도서</string>
+    <string name="book_new" translatable="false">신작 도서</string>
+</resources>

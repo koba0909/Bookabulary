@@ -1,6 +1,5 @@
 package com.koba.presenter.main
 
-import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
 import android.widget.Toast
@@ -29,6 +28,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.flowWithLifecycle
 import coil.compose.AsyncImage
@@ -59,11 +59,7 @@ fun MainScreen(
     val cellCount = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) 3 else 5
     val pageState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
-    val tabs = listOf(
-        "베스트 도서",
-        "추천 도서",
-        "신작 도서"
-    )
+    val tabs = BookPage.values().map { stringResource(id = it.resId) }
 
     LaunchedEffect(Unit) {
         launch {
@@ -81,14 +77,13 @@ fun MainScreen(
         launch {
             snapshotFlow { pageState.currentPage }
                 .collect {
-                    Log.d("hugh", "currentPage : $it")
                     when (pageState.currentPage) {
-                        1 -> {
+                        BookPage.Recommend.ordinal -> {
                             if (!state.value.isLoadingRecommend && state.value.recommendBooks.isEmpty()) {
                                 onRequestRecommendBookList.invoke()
                             }
                         }
-                        2 -> {
+                        BookPage.New.ordinal -> {
                             if (!state.value.isLoadingNew && state.value.newBooks.isEmpty()) {
                                 onRequestNewBookList.invoke()
                             }
@@ -109,13 +104,13 @@ fun MainScreen(
 
         BookHorizontalPager(
             modifier = Modifier.padding(horizontal = 10.dp),
-            context = context,
             pageState = pageState,
             state = state,
             cellCount = cellCount,
             onRequestBestSellerBook = onRequestRefreshBookList,
             onRequestRecommendBook = onRequestRecommendBookList,
-            onRequestNewBook = onRequestNewBookList
+            onRequestNewBook = onRequestNewBookList,
+            onClickBook = { Toast.makeText(context, "click : ${it.title}", Toast.LENGTH_SHORT).show() }
         )
     }
 }
@@ -154,13 +149,13 @@ fun BookTabRow(
 @Composable
 fun BookHorizontalPager(
     modifier: Modifier,
-    context: Context,
     pageState: PagerState,
     state: State<MainState>,
     cellCount: Int,
     onRequestBestSellerBook: () -> Unit,
     onRequestRecommendBook: () -> Unit,
-    onRequestNewBook: () -> Unit
+    onRequestNewBook: () -> Unit,
+    onClickBook: (Book) -> Unit
 ) {
     HorizontalPager(
         modifier = modifier,
@@ -168,36 +163,33 @@ fun BookHorizontalPager(
         state = pageState
     ) { page ->
         when (page) {
-            0 -> {
+            BookPage.BestSeller.ordinal -> {
                 BookSwipeGrid(
-                    context = context,
                     books = state.value.bestSellerBooks,
                     isLoading = state.value.isLoadingBestSeller,
-                    cellCount = cellCount
-                ) {
-                    onRequestBestSellerBook.invoke()
-                }
+                    cellCount = cellCount,
+                    onClickBook = onClickBook,
+                    onSwipeRefresh = { onRequestBestSellerBook.invoke() }
+                )
             }
-            1 -> {
+            BookPage.Recommend.ordinal -> {
                 BookSwipeGrid(
-                    context = context,
                     books = state.value.recommendBooks,
                     isLoading = state.value.isLoadingRecommend,
-                    cellCount = cellCount
-                ) {
-                    onRequestRecommendBook.invoke()
-                }
+                    cellCount = cellCount,
+                    onClickBook = onClickBook,
+                    onSwipeRefresh = { onRequestRecommendBook.invoke() }
+                )
             }
 
-            2 -> {
+            BookPage.New.ordinal -> {
                 BookSwipeGrid(
-                    context = context,
                     books = state.value.newBooks,
                     isLoading = state.value.isLoadingNew,
-                    cellCount = cellCount
-                ) {
-                    onRequestNewBook.invoke()
-                }
+                    cellCount = cellCount,
+                    onClickBook = onClickBook,
+                    onSwipeRefresh = { onRequestNewBook.invoke() }
+                )
             }
         }
     }
@@ -206,11 +198,11 @@ fun BookHorizontalPager(
 @Composable
 fun BookSwipeGrid(
     modifier: Modifier = Modifier.fillMaxSize(),
-    context: Context,
     books: List<Book>,
     isLoading: Boolean,
     cellCount: Int,
-    onSwipeRefresh: () -> Unit
+    onSwipeRefresh: () -> Unit,
+    onClickBook: (Book) -> Unit
 ) {
     SwipeRefresh(
         modifier = modifier,
@@ -219,11 +211,9 @@ fun BookSwipeGrid(
     ) {
         BookGrid(
             books = books,
-            cellCount = cellCount
-        ) {
-            // TODO move detail screen
-            Toast.makeText(context, it.title, Toast.LENGTH_SHORT).show()
-        }
+            cellCount = cellCount,
+            onClickBook = onClickBook
+        )
     }
 }
 
@@ -245,7 +235,8 @@ fun BookGrid(books: List<Book>, cellCount: Int, onClickBook: (Book) -> Unit) {
 @Composable
 fun BookItem(book: Book, onClickBook: (Book) -> Unit) {
     Column(
-        modifier = Modifier.height(190.dp)
+        modifier = Modifier
+            .height(190.dp)
             .clickable {
                 onClickBook.invoke(book)
             }
