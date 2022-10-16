@@ -2,6 +2,7 @@ package com.koba.presenter.main
 
 import android.content.Context
 import android.content.res.Configuration
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -63,29 +65,37 @@ fun MainScreen(
         "신작 도서"
     )
 
-    when (pageState.currentPage) {
-        1 -> {
-            if (!state.value.isLoadingRecommend && state.value.recommendBooks.isEmpty()) {
-                onRequestRecommendBookList.invoke()
-            }
-        }
-        2 -> {
-            if (!state.value.isLoadingNew && state.value.newBooks.isEmpty()) {
-                onRequestNewBookList.invoke()
-            }
-        }
-    }
-
     LaunchedEffect(Unit) {
-        effectFlow
-            .flowWithLifecycle(lifecycleOwner.lifecycle)
-            .collect {
-                when (it) {
-                    is MainEffect.ShowToast -> {
-                        Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+        launch {
+            effectFlow
+                .flowWithLifecycle(lifecycleOwner.lifecycle)
+                .collect {
+                    when (it) {
+                        is MainEffect.ShowToast -> {
+                            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
-            }
+        }
+
+        launch {
+            snapshotFlow { pageState.currentPage }
+                .collect {
+                    Log.d("hugh", "currentPage : $it")
+                    when (pageState.currentPage) {
+                        1 -> {
+                            if (!state.value.isLoadingRecommend && state.value.recommendBooks.isEmpty()) {
+                                onRequestRecommendBookList.invoke()
+                            }
+                        }
+                        2 -> {
+                            if (!state.value.isLoadingNew && state.value.newBooks.isEmpty()) {
+                                onRequestNewBookList.invoke()
+                            }
+                        }
+                    }
+                }
+        }
     }
 
     Column(
