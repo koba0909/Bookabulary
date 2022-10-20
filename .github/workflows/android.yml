@@ -31,5 +31,3 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Access INTERPARK_KEY
-      run: echo INTERPARK_KEY=\"$INTERPARK_KEY\" > ./local.properties
