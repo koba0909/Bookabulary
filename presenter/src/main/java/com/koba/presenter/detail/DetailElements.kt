@@ -13,17 +13,15 @@ data class DetailState(
 ) : MviState
 
 sealed interface DetailIntent : MviIntent {
-    data class ShowDetailScreen(val book: Book)
+    data class RequestYoutubeSearch(val keyword: String) : DetailIntent
 
-    data class RequestYoutubeSearch(val keyword: String)
+    data class SuccessYoutubeSearch(val result: YoutubeSearchResult) : DetailIntent
 
-    data class SuccessYoutubeSearch(val result: YoutubeSearchResult)
-
-    data class FailYoutubeSearch(val exception: Exception)
+    data class FailYoutubeSearch(val exception: Exception) : DetailIntent
 }
 
 sealed interface DetailEffect : MviEffect
 
 sealed interface DetailSideEffect : MviSideEffect {
-    data class RequestYoutubeSearch(val keyword: String)
+    data class RequestYoutubeSearch(val keyword: String) : DetailSideEffect
 }
