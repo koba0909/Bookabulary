@@ -1,14 +1,19 @@
 package com.koba.presenter.main
 
 import android.content.res.Configuration
-import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -23,13 +28,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.flowWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -41,6 +52,7 @@ import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.koba.domain.model.Book
+import com.koba.presenter.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -97,6 +109,9 @@ fun MainScreen(
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         BookTabRow(
+            modifier = Modifier.height(30.dp)
+                .padding(start = 15.dp)
+                .background(Color.White),
             coroutineScope = coroutineScope,
             pageState = pageState,
             titles = tabs
@@ -118,28 +133,47 @@ fun MainScreen(
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun BookTabRow(
+    modifier: Modifier,
     coroutineScope: CoroutineScope,
     pageState: PagerState,
     titles: List<String>
 ) {
-    TabRow(
-        selectedTabIndex = pageState.currentPage,
-        indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                modifier = Modifier.pagerTabIndicatorOffset(pageState, tabPositions)
-            )
-        }
-    ) {
-        titles.forEachIndexed { index, title ->
-            Tab(
-                selected = pageState.currentPage == index,
-                onClick = {
-                    coroutineScope.launch {
-                        pageState.scrollToPage(index)
+    Row(modifier = modifier) {
+        Image(
+            modifier = Modifier.align(Alignment.CenterVertically)
+                .size(16.dp),
+            painter = painterResource(id = R.drawable.ic_hamburger),
+            contentDescription = null
+        )
+
+        TabRow(
+            modifier = Modifier.fillMaxSize()
+                .background(Color.White)
+            ,
+            selectedTabIndex = pageState.currentPage,
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    modifier = Modifier.pagerTabIndicatorOffset(pageState, tabPositions)
+                )
+            }
+        ) {
+            titles.forEachIndexed { index, title ->
+                Tab(
+                    modifier = Modifier.background(Color.White),
+                    selected = pageState.currentPage == index,
+                    onClick = {
+                        coroutineScope.launch {
+                            pageState.scrollToPage(index)
+                        }
                     }
+                ) {
+                    Text(
+                        text = title,
+                        fontSize = 13.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
-            ) {
-                Text(title)
             }
         }
     }
