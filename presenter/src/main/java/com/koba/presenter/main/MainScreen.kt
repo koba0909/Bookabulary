@@ -8,12 +8,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -30,14 +31,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -108,14 +111,22 @@ fun MainScreen(
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        BookTabRow(
-            modifier = Modifier.height(30.dp)
-                .padding(start = 15.dp)
-                .background(Color.White),
-            coroutineScope = coroutineScope,
-            pageState = pageState,
-            titles = tabs
-        )
+        Card(
+            modifier = Modifier.fillMaxWidth()
+                .wrapContentHeight(),
+            elevation = 4.dp,
+            shape = RectangleShape
+        ) {
+            BookTabRow(
+                modifier = Modifier.height(30.dp)
+                    .padding(start = 15.dp)
+                    .background(Color.White),
+                coroutineScope = coroutineScope,
+                pageState = pageState,
+                titles = tabs
+            )
+        }
+
 
         BookHorizontalPager(
             modifier = Modifier.padding(horizontal = 10.dp),
@@ -148,12 +159,20 @@ fun BookTabRow(
 
         TabRow(
             modifier = Modifier.fillMaxSize()
-                .background(Color.White)
-            ,
+                .padding(horizontal = 10.dp)
+                .background(Color.White),
             selectedTabIndex = pageState.currentPage,
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
                     modifier = Modifier.pagerTabIndicatorOffset(pageState, tabPositions)
+                        .fillMaxHeight()
+                        .alpha(0.1f)
+                        .clip(
+                            RoundedCornerShape(100.dp)
+                        )
+                        .padding(vertical = 3.dp),
+                    color = Color.Blue,
+                    height = 15.dp
                 )
             }
         ) {
@@ -170,8 +189,16 @@ fun BookTabRow(
                     Text(
                         text = title,
                         fontSize = 13.sp,
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold
+                        color = if(pageState.currentPage == index) {
+                            Color.Blue.copy(0.6f)
+                        } else {
+                            Color.Black.copy(0.9f)
+                        },
+                        fontWeight = if(pageState.currentPage == index) {
+                            FontWeight.Bold
+                        } else {
+                            FontWeight.Medium
+                        }
                     )
                 }
             }
