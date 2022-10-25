@@ -1,4 +1,11 @@
 package com.koba.presenter.detail
 
-class DetailScreen {
+import androidx.compose.runtime.Composable
+import kotlinx.coroutines.flow.Flow
+
+@Composable
+fun DetailScreen(
+    state: DetailState,
+    effectFlow: Flow<DetailEffect>
+) {
 }
