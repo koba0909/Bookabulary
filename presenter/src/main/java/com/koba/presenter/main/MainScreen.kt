@@ -67,7 +67,8 @@ fun MainScreen(
     effectFlow: Flow<MainEffect>,
     onRequestRefreshBookList: () -> Unit,
     onRequestRecommendBookList: () -> Unit,
-    onRequestNewBookList: () -> Unit
+    onRequestNewBookList: () -> Unit,
+    onNavigateToBookDetail: (Book) -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
@@ -135,7 +136,7 @@ fun MainScreen(
             onRequestBestSellerBook = onRequestRefreshBookList,
             onRequestRecommendBook = onRequestRecommendBookList,
             onRequestNewBook = onRequestNewBookList,
-            onClickBook = { Toast.makeText(context, "click : ${it.title}", Toast.LENGTH_SHORT).show() }
+            onClickBook = { onNavigateToBookDetail(it) }
         )
     }
 }

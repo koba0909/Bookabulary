@@ -2,9 +2,13 @@ package com.koba.presenter.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import com.koba.domain.model.Book
 
 @Composable
-fun MainRoute(viewModel: MainViewModel) {
+fun MainRoute(
+    viewModel: MainViewModel,
+    onNavigateToBookDetail: (Book) -> Unit
+) {
     val state = viewModel.state.collectAsState()
 
     MainScreen(
@@ -24,6 +28,7 @@ fun MainRoute(viewModel: MainViewModel) {
             viewModel.handleIntent(
                 MainIntent.RequestNewBooks
             )
-        }
+        },
+        onNavigateToBookDetail = onNavigateToBookDetail
     )
 }
