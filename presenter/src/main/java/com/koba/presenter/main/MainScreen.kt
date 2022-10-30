@@ -127,7 +127,6 @@ fun MainScreen(
             )
         }
 
-
         BookHorizontalPager(
             modifier = Modifier.padding(horizontal = 10.dp),
             pageState = pageState,

@@ -3,6 +3,7 @@ plugins {
     alias libs.plugins.kotlin.android
     alias libs.plugins.kotlin.kapt
     alias libs.plugins.dagger.hilt.android
+    alias libs.plugins.kotlin.serialization
 }
 
 android {
@@ -46,6 +47,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.hilt)
+    implementation(libs.androidx.navigation)
+    implementation(libs.bundles.kotlinx.serialization)
     kapt(libs.hilt.compiler)
     implementation(libs.coil.compose)
     implementation(libs.accompanist.pager)

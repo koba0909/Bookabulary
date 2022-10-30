@@ -1,5 +1,10 @@
 package com.koba.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@kotlinx.serialization.Serializable
+@Parcelize
 data class Book(
     val title: String,
     val description: String,
@@ -11,4 +16,4 @@ data class Book(
     val author: String,
     val publisher: String,
     val link: String
-)
+) : Parcelable

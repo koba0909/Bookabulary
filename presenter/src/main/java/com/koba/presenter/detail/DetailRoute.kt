@@ -4,11 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 
 @Composable
-fun DetailRoute(detailViewModel: DetailViewModel) {
-    val state = detailViewModel.state.collectAsState()
+fun DetailRoute(viewModel: DetailViewModel) {
+    val state = viewModel.state.collectAsState()
 
     DetailScreen(
         state = state.value,
-        effectFlow = detailViewModel.effect
+        effectFlow = viewModel.effect
     )
 }

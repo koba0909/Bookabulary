@@ -3,6 +3,8 @@ plugins {
     alias libs.plugins.kotlin.android
     alias libs.plugins.kotlin.kapt
     alias libs.plugins.dagger.hilt.android
+    id 'kotlin-parcelize'
+    alias libs.plugins.kotlin.serialization
 }
 
 android {
@@ -35,6 +37,7 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.bundles.kotlinx.serialization)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
     testImplementation(libs.junit)
