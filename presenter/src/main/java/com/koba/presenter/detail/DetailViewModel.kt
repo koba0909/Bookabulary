@@ -72,6 +72,12 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+    fun onClickYoutubeItem(url: String) {
+        emitEffect(
+            DetailEffect.OnClickYoutubeItem(url)
+        )
+    }
+
     companion object {
         const val TAG = "DetailViewModel"
         const val KEY_SELECTED_BOOK = "selected_book"

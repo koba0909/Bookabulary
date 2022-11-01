@@ -20,7 +20,9 @@ sealed interface DetailIntent : MviIntent {
     data class FailYoutubeSearch(val throwable: Throwable) : DetailIntent
 }
 
-sealed interface DetailEffect : MviEffect
+sealed interface DetailEffect : MviEffect {
+    data class OnClickYoutubeItem(val url: String): DetailEffect
+}
 
 sealed interface DetailSideEffect : MviSideEffect {
     data class RequestYoutubeSearch(val keyword: String) : DetailSideEffect
