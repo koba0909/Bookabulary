@@ -17,7 +17,7 @@ sealed interface DetailIntent : MviIntent {
 
     data class SuccessYoutubeSearch(val result: YoutubeSearchResult) : DetailIntent
 
-    data class FailYoutubeSearch(val exception: Exception) : DetailIntent
+    data class FailYoutubeSearch(val throwable: Throwable) : DetailIntent
 }
 
 sealed interface DetailEffect : MviEffect
