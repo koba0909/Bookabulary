@@ -9,7 +9,7 @@ fun YoutubeSearchDto.toYoutubeSearchResults(): List<YoutubeSearchResult> {
             videoLink = "https://www.youtube.com/watch?v=${it.id.videoId}",
             title = it.item.title,
             thumbnailUrl = it.item.thumbnails.defaultSize.url,
-            channelName = it.channelName
+            channelName = it.item.channelName
         )
     }
 }

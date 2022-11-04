@@ -1,6 +1,7 @@
 package com.koba.di
 
 import com.koba.data.network.RetrofitProvider
+import com.koba.data.repository.MockYoutubeRepositoryImpl
 import com.koba.data.repository.YoutubeRepositoryImpl
 import com.koba.data.service.InterparkService
 import com.koba.data.service.YoutubeService
@@ -11,14 +12,22 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import javax.inject.Qualifier
 
 @Module
 @InstallIn(ViewModelComponent::class)
 interface YoutubeModule {
+
+    // @Binds
+    // @ViewModelScoped
+    // fun bindYoutubeRepository(
+    //     youtubeRepositoryImpl: YoutubeRepositoryImpl
+    // ): YoutubeRepository
+
     @Binds
     @ViewModelScoped
     fun bindYoutubeRepository(
-        youtubeRepositoryImpl: YoutubeRepositoryImpl
+        mockYoutubeRepositoryImpl: MockYoutubeRepositoryImpl
     ): YoutubeRepository
 
     companion object {

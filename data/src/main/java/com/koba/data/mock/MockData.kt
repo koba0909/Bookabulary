@@ -799,4 +799,189 @@ object MockData {
             ]
         }
     """.trimIndent()
+
+    val youtubeSearchMockData = """
+        {
+          "kind": "youtube#searchListResponse",
+          "etag": "mhFesefmfIqdcDAurBzwu26JhUQ",
+          "nextPageToken": "CAUQAA",
+          "regionCode": "KR",
+          "pageInfo": {
+            "totalResults": 5607,
+            "resultsPerPage": 5
+          },
+          "items": [
+            {
+              "kind": "youtube#searchResult",
+              "etag": "93e0VbdzwLfnwRrtLAM9S_fAeG4",
+              "id": {
+                "kind": "youtube#video",
+                "videoId": "YFR8hWkXU5Y"
+              },
+              "snippet": {
+                "publishedAt": "2022-10-12T09:00:31Z",
+                "channelId": "UCY32HFBE7Rc4CcTdN6gTJWg",
+                "title": "〈트렌드 코리아 2023〉 살펴보기 👀│ 역대급 불황이 예측되는 가운데.. │ 공백이가 이맘때쯤이면 꼭 읽는 필독서 📖",
+                "description": "00:00 오늘의 영상 프리뷰 00:13 연말 필독서 〈트렌드 코리아 2023〉 00:32 2022 TIGER OR CAT 01:17 역대급 불황 예상! 2023 ...",
+                "thumbnails": {
+                  "default": {
+                    "url": "https://i.ytimg.com/vi/YFR8hWkXU5Y/default.jpg",
+                    "width": 120,
+                    "height": 90
+                  },
+                  "medium": {
+                    "url": "https://i.ytimg.com/vi/YFR8hWkXU5Y/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                  },
+                  "high": {
+                    "url": "https://i.ytimg.com/vi/YFR8hWkXU5Y/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                  }
+                },
+                "channelTitle": "공백의 책단장GongBaek's Book Dressup",
+                "liveBroadcastContent": "none",
+                "publishTime": "2022-10-12T09:00:31Z"
+              }
+            },
+            {
+              "kind": "youtube#searchResult",
+              "etag": "Lh0-9VwXFNVhqW1MWWdyZvmlQuM",
+              "id": {
+                "kind": "youtube#video",
+                "videoId": "iFBQcVrnBWk"
+              },
+              "snippet": {
+                "publishedAt": "2022-10-19T03:52:28Z",
+                "channelId": "UCVY3fauQcamObiPRd_O_eFw",
+                "title": "트렌드코리아2023 - 책리뷰",
+                "description": "2023트렌드를 파악하자!! https://m.blog.naver.com/gnalachim/222903362942 #트렌드코리아2023 #미래의창 #신간소개 #새로나온 ...",
+                "thumbnails": {
+                  "default": {
+                    "url": "https://i.ytimg.com/vi/iFBQcVrnBWk/default.jpg",
+                    "width": 120,
+                    "height": 90
+                  },
+                  "medium": {
+                    "url": "https://i.ytimg.com/vi/iFBQcVrnBWk/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                  },
+                  "high": {
+                    "url": "https://i.ytimg.com/vi/iFBQcVrnBWk/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                  }
+                },
+                "channelTitle": "써봄이",
+                "liveBroadcastContent": "none",
+                "publishTime": "2022-10-19T03:52:28Z"
+              }
+            },
+            {
+              "kind": "youtube#searchResult",
+              "etag": "4N6yIR6FkAIMbcb2RIF83TmXC6I",
+              "id": {
+                "kind": "youtube#video",
+                "videoId": "XALiwdfypKk"
+              },
+              "snippet": {
+                "publishedAt": "2022-10-21T09:09:40Z",
+                "channelId": "UCHrySHoh0l4XwM71SUwt17Q",
+                "title": "트렌드코리아2023 요약 정리! 핵심리뷰입니다~! #트렌드코리아 #2023 #도가티 #도드람가족TV #책리뷰",
+                "description": "도드람 조합원을 위한 도드람가족TV 현 베스트셀러 1위! 우리 조합원님들이 이 시기에 가장 많이 읽으시는 책! 서울대 소비트렌드 분석 ...",
+                "thumbnails": {
+                  "default": {
+                    "url": "https://i.ytimg.com/vi/XALiwdfypKk/default.jpg",
+                    "width": 120,
+                    "height": 90
+                  },
+                  "medium": {
+                    "url": "https://i.ytimg.com/vi/XALiwdfypKk/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                  },
+                  "high": {
+                    "url": "https://i.ytimg.com/vi/XALiwdfypKk/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                  }
+                },
+                "channelTitle": "도가티 - 도드람가족TV",
+                "liveBroadcastContent": "none",
+                "publishTime": "2022-10-21T09:09:40Z"
+              }
+            },
+            {
+              "kind": "youtube#searchResult",
+              "etag": "5fiPMe4puetAdjkXnk86DF2Mq_8",
+              "id": {
+                "kind": "youtube#video",
+                "videoId": "kLAR2N8I-yg"
+              },
+              "snippet": {
+                "publishedAt": "2022-10-06T11:41:22Z",
+                "channelId": "UCXG4DNWTYdF1uLnx_VD9vNg",
+                "title": "(도서리뷰) 트렌드코리아 2023(Trend Korea 2023)",
+                "description": "트렌드코리아 2023의 간단한 리뷰입니다. 이제 우리의 삶과 뗄 수 없는 이야기가 되버린 서울대 소비트렌드 분석 센터의 트렌트 ...",
+                "thumbnails": {
+                  "default": {
+                    "url": "https://i.ytimg.com/vi/kLAR2N8I-yg/default.jpg",
+                    "width": 120,
+                    "height": 90
+                  },
+                  "medium": {
+                    "url": "https://i.ytimg.com/vi/kLAR2N8I-yg/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                  },
+                  "high": {
+                    "url": "https://i.ytimg.com/vi/kLAR2N8I-yg/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                  }
+                },
+                "channelTitle": "칼퇴의기술",
+                "liveBroadcastContent": "none",
+                "publishTime": "2022-10-06T11:41:22Z"
+              }
+            },
+            {
+              "kind": "youtube#searchResult",
+              "etag": "O86Btb1_o1BS0JkRoU2DTJ7G2PA",
+              "id": {
+                "kind": "youtube#video",
+                "videoId": "P3jAtmPb0lY"
+              },
+              "snippet": {
+                "publishedAt": "2022-10-23T08:00:19Z",
+                "channelId": "UCCIOK_muw3wg0vWEAkBueAA",
+                "title": "[전국민 필독서] 2023년, 대한민국은 이렇게 변합니다 | 트렌드코리아 2023",
+                "description": "오늘 소개한 책은 '트렌드 코리아 2023'(김난도 외, 미래의창)입니다! 해당 콘텐츠는 출판사의 사전 허가를 얻어 제작되었습니다!",
+                "thumbnails": {
+                  "default": {
+                    "url": "https://i.ytimg.com/vi/P3jAtmPb0lY/default.jpg",
+                    "width": 120,
+                    "height": 90
+                  },
+                  "medium": {
+                    "url": "https://i.ytimg.com/vi/P3jAtmPb0lY/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                  },
+                  "high": {
+                    "url": "https://i.ytimg.com/vi/P3jAtmPb0lY/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                  }
+                },
+                "channelTitle": "북토크",
+                "liveBroadcastContent": "none",
+                "publishTime": "2022-10-23T08:00:19Z"
+              }
+            }
+          ]
+        }
+    """.trimIndent()
 }

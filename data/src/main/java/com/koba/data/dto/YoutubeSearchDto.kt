@@ -15,8 +15,6 @@ data class YoutubeSearchDto(
 data class YoutubeSearchItemDto(
     @SerialName("snippet")
     val item: YoutubeSearchSnippetDto,
-    @SerialName("channelTitle")
-    val channelName: String,
     val id: YoutubeSearchVideoIdDto
 )
 
@@ -30,7 +28,9 @@ data class YoutubeSearchVideoIdDto(
 @Serializable
 data class YoutubeSearchSnippetDto(
     val title: String,
-    val thumbnails: YoutubeThumbnailDto
+    val thumbnails: YoutubeThumbnailDto,
+    @SerialName("channelTitle")
+    val channelName: String
 )
 
 @Keep
