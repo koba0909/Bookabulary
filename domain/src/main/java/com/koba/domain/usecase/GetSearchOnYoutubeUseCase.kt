@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetSearchOnYoutubeUseCase @Inject constructor(
     private val youtubeRepository: YoutubeRepository
 ) {
-    suspend operator fun invoke(keyword: String): YoutubeSearchResult {
+    suspend operator fun invoke(keyword: String): List<YoutubeSearchResult> {
         return youtubeRepository.getYoutubeSearchResult(keyword)
     }
 }

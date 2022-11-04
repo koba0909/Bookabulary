@@ -9,13 +9,13 @@ import com.koba.domain.model.YoutubeSearchResult
 
 data class DetailState(
     val book: Book? = null,
-    val youtubeSearchResult: YoutubeSearchResult? = null
+    val youtubeSearchResult: List<YoutubeSearchResult>? = null
 ) : MviState
 
 sealed interface DetailIntent : MviIntent {
     data class RequestYoutubeSearch(val keyword: String) : DetailIntent
 
-    data class SuccessYoutubeSearch(val result: YoutubeSearchResult) : DetailIntent
+    data class SuccessYoutubeSearch(val result: List<YoutubeSearchResult>) : DetailIntent
 
     data class FailYoutubeSearch(val throwable: Throwable) : DetailIntent
 }
