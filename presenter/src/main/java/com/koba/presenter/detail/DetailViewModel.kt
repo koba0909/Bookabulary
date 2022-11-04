@@ -44,7 +44,7 @@ class DetailViewModel @Inject constructor(
 
                 updateState {
                     it.copy(
-                        youtubeSearchResult = it.youtubeSearchResult
+                        youtubeSearchResults = it.youtubeSearchResults
                     )
                 }
             }

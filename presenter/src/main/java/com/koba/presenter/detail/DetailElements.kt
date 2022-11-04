@@ -8,8 +8,8 @@ import com.koba.domain.model.Book
 import com.koba.domain.model.YoutubeSearchResult
 
 data class DetailState(
-    val book: Book? = null,
-    val youtubeSearchResult: List<YoutubeSearchResult>? = null
+    val book: Book = Book(),
+    val youtubeSearchResults: List<YoutubeSearchResult> = emptyList()
 ) : MviState
 
 sealed interface DetailIntent : MviIntent {
@@ -21,7 +21,7 @@ sealed interface DetailIntent : MviIntent {
 }
 
 sealed interface DetailEffect : MviEffect {
-    data class OnClickYoutubeItem(val url: String): DetailEffect
+    data class OnClickYoutubeItem(val url: String) : DetailEffect
 }
 
 sealed interface DetailSideEffect : MviSideEffect {
