@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface YoutubeService {
     @GET("/youtube/v3/search")
-    fun getYoutubeVideos(
+    suspend fun getYoutubeVideos(
         @Query("q")
         query: String,
         @Query("key")

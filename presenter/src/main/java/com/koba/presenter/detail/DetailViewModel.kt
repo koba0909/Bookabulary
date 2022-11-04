@@ -40,6 +40,8 @@ class DetailViewModel @Inject constructor(
                 )
             }
             is DetailIntent.SuccessYoutubeSearch -> {
+                Log.d("hugh", "youtube : ${intent.result}")
+
                 updateState {
                     it.copy(
                         youtubeSearchResult = it.youtubeSearchResult
