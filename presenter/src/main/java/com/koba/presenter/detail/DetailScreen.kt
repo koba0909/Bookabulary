@@ -1,5 +1,7 @@
 package com.koba.presenter.detail
 
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -103,6 +105,7 @@ fun BookInfoRow(modifier: Modifier = Modifier, book: Book) {
             model = ImageRequest.Builder(LocalContext.current)
                 .data(book.imageUrl)
                 .memoryCacheKey(book.imageUrl)
+                .placeholder(R.drawable.ic_hamburger)
                 .build(),
             contentScale = ContentScale.FillBounds,
             contentDescription = book.description
@@ -137,7 +140,10 @@ fun YoutubeColumn(
     searchResults: List<YoutubeSearchResult>
 ) {
     Column(modifier = modifier) {
-        YoutubeSearchResultTitleRow(title = title)
+        YoutubeSearchResultTitleRow(
+            modifier = Modifier.background(Color.Red.copy(alpha = 0.5f)),
+            title = title
+        )
 
         Spacer(modifier = Modifier.size(10.dp))
 
@@ -147,7 +153,11 @@ fun YoutubeColumn(
 
 @Composable
 fun YoutubeVideoList(searchResults: List<YoutubeSearchResult>) {
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier.background(Color.Green.copy(alpha = 0.5f))
+            .fillMaxWidth()
+            .height(400.dp)
+    ) {
         items(searchResults) { item ->
             YoutubeVideoItemRow(item)
         }
@@ -156,12 +166,18 @@ fun YoutubeVideoList(searchResults: List<YoutubeSearchResult>) {
 
 @Composable
 fun YoutubeVideoItemRow(item: YoutubeSearchResult) {
-    Row {
+    Row(
+        modifier = Modifier.background(Color.Blue.copy(alpha = 0.5f))
+            .fillMaxWidth()
+            .height(70.dp)
+    ) {
         AsyncImage(
             modifier = Modifier.width(64.dp)
-                .height(18.dp),
+                .height(36.dp)
+                .background(Color.LightGray.copy(alpha = 0.5f)),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(item.thumbnailUrl)
+                .placeholder(R.drawable.ic_hamburger)
                 .memoryCacheKey(item.thumbnailUrl)
                 .build(),
             contentScale = ContentScale.FillBounds,

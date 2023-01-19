@@ -44,7 +44,7 @@ class DetailViewModel @Inject constructor(
 
                 updateState {
                     it.copy(
-                        youtubeSearchResults = it.youtubeSearchResults
+                        youtubeSearchResults = intent.result
                     )
                 }
             }
