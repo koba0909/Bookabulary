@@ -3,7 +3,7 @@ package com.koba.data.mock
 object MockData {
     val bestSellerJson = """
         {
-            "title":"베스트셀러4",
+            "title":"베스트셀러5",
             "link":"http://book.interpark.com",
             "language":"ko",
             "copyright":"Copyright ⓒ 2009 INTERPARK INT All rights reserved.",
